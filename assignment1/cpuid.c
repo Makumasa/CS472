@@ -142,6 +142,126 @@ cpuid_cache_info  cpuid_cache_info_table[] = {
     { 0xFF, NOREPORT,   "CPUID leaf 2 does not report cache descriptor information, use CPUID leaf 4 to query cache parameters\n" }
 };
 
+char* cpu_features_d[32] = {
+    "Onboard x87 FPU\n",
+    "Virtual 8086 mode extensions\n",
+    "Debugging extensions\n",
+    "Page Size Extension\n",
+    "Time Stamp Counter\n",
+    "Model-specific registers\n",
+    "Machine Check Exception\n",
+    "Physical Address Extension\n",
+    "CMPXCHG8\n",
+    "Onboard Advanced Programmable Interrupt Controller\n",
+    "",
+    "SYSENTER and SYSEXIT instructions\n",
+    "Memory Type Range Registers\n",
+    "Page Global Enable bit in CR4\n",
+    "Machine check architecture\n",
+    "Conditional move and FCMOV instructions\n",
+    "Page Attribute Table\n",
+    "36-bit page size extension\n",
+    "Processor Serial Number\n",
+    "CLFLUSH instruction\n",
+    "",
+    "Debug store\n",
+    "Onboard thermal control MSRs for ACPI\n",
+    "MMX instructions\n",
+    "FXSAVE, FXRESTOR instructions\n",
+    "SSE instructions\n",
+    "SSE2 instructions\n",
+    "CPU cache supports self-snoop\n",
+    "Hyper-threading\n",
+    "Thermal monitor automatically limits temperature\n",
+    "IA64 processor emulating x86\n",
+    "Pending Break Enable wakeup support\n"
+};
+
+char* cpu_features_c[32] = {
+    "SSE3 instructions\n",
+    "PCLMULQDQ support\n",
+    "64-bit debug store\n",
+    "MONITOR and MWAIT instructions\n",
+    "CPL qualified debug store\n",
+    "Virtual Machine eXtensions\n",
+    "Safer Mode Extensions\n",
+    "Enhanced SpeedStep\n",
+    "Thermal Monitor 2\n",
+    "SSSE3 instructions\n",
+    "L1 Context ID\n",
+    "Silicon Debug interface\n",
+    "Fused multiply-add 3\n",
+    "CMPXCHG16B instruction\n",
+    "Can disable sending task priority messages\n",
+    "Perfmon & debug capability\n",
+    "",
+    "Process context identifiers\n",
+    "Direct cache access for DMA writes\n",
+    "SSE4.1 instructions\n",
+    "SSE4.2 instructions\n",
+    "x2APIC support\n",
+    "MOVBE instruction\n",
+    "POPCNT instruction\n",
+    "APIC supports one-shot operation using a TSC deadline value\n",
+    "AES instruction set\n",
+    "XSAVE, XRESTOR, XSETBV, XGETBV\n",
+    "XSAVE enabled by OS\n",
+    "Advanced Vector Extensions\n",
+    "Half precision float support\n",
+    "RDRAND\n",
+    "Running on a hypervisor\n"
+};
+
+char* ext_cpu_features_b[32] = {
+    "Access to base of fs and gs\n",
+    "Virtual 8086 mode extensions\n",
+    "Software Guard Extensions\n",
+    "Bit Manipulation Instruction Set 1\n",
+    "Transactional Synchronization Extensions\n",
+    "Advanced Vector Extensions 2\n",
+    "",
+    "Supervisor-Mode Execution Prevention\n",
+    "Bit Manipulation Instruction Set 2\n",
+    "Enhanced REP MOVSB/STOSB\n",
+    "INVPCID instruction\n",
+    "Transactional Synchronization Extensions\n",
+    "Platform Quality of Service Monitoring\n",
+    "FPU CS and FPU DS deprecated\n",
+    "Intel MPX\n",
+    "Platform Quality of Service Enforcement\n",
+    "AVX-512 Foundation\n",
+    "AVX-512 Doubleword and Quadword Instructions\n",
+    "RDSEED instruction\n",
+    "Intel ADX\n",
+    "Supervisor Mode Access Prevention\n",
+    "AVX-512 Integer Fused Multiply-Add Instructions\n",
+    "PCOMMIT instruction\n",
+    "CLFLUSHOPT instruction\n",
+    "CLWB instruction\n",
+    "Intel Processor Trace\n",
+    "AVX-512 Prefetch Instructions\n",
+    "AVX-512 Exponential and Reciprocal Instructions\n",
+    "AVX-512 Conflict Detection Instructions\n",
+    "Intel SHA extensions\n",
+    "AVX-512 Byte and Word Instructions\n",
+    "AVX-512 Vector Length Extensions\n"
+};
+
+char* ext_cpu_features_c[32] = {
+    "PREFETCHWT1 instruction\n",
+    "AVX-512 Vector Bit Manipulation Instructions\n",
+    "User-mode Instruction Prevention\n",
+    "Memory Protection Keys for User-mode pages\n",
+    "PKU enabled by OS\n",
+    "","","","","","","","","",
+    "AVX-512 Vector Population Count D/Q\n",
+    "","","","","","","",
+    "Read Processor ID\n",
+    "","","","","","","",
+    "SGX Launch Configuration\n",
+    ""
+};
+
 void cpuid()
 {
     __asm__ __volatile__("cpuid;"
@@ -170,11 +290,11 @@ cpuid_cache_info* cache_info_lookup(unsigned char desc)
 
 int main(int argc, char **argv)
 {
+    /* Cache, TLB, and Prefetch Info */
     char cache_info[255]    = "";
     char tlb_info[255]      = "";
     char prefetch_info[255] = "";
     bool no_report = false;
-
     eax = 0x02;
     cpuid();
     for (int i = 0; i < 4; ++i) {   /* register */
@@ -201,16 +321,21 @@ int main(int argc, char **argv)
                 break;
             case PREFETCH:
                 strcat(prefetch_info, info->Description);
+                break;
             case NOREPORT:
                 no_report = true;
+                break;
             }
         }
     }
+    /* If cache info is located in leaf 4 */
     if (no_report) {
         eax = 0x04;
         unsigned int index = 0;
         ecx = index;
         cpuid_with_ecx();
+        printf("\nCACHE INFO\n");
+        printf("---------------------------------------------------------------------------------\n");
         while ((eax & 0b11111) != 0) {
             unsigned int cache_type_val = (eax & 0b11111);
             char cache_type[50];
@@ -226,6 +351,7 @@ int main(int argc, char **argv)
                 break;
             default:
                 strcpy(cache_type, "reserved");
+                break;
             }
             unsigned int cache_level = ((eax >> 5) & 0b111);
             unsigned int line_size = (ebx & 0xFFF) + 1;
@@ -281,22 +407,36 @@ int main(int argc, char **argv)
         }
     }
     else {
+        printf("\nCACHE INFO\n");
+        printf("---------------------------------------------------------------------------------\n");
         printf("%s", cache_info);
     }
-    printf("%s%s", tlb_info, prefetch_info);
+    printf("\nTLB INFO\n");
+    printf("---------------------------------------------------------------------------------\n");
+    printf("%s", tlb_info);
+    printf("\nPREFETCH INFO\n");
+    printf("---------------------------------------------------------------------------------\n");
+    printf("%s", prefetch_info);
+
+    /* Address size */
     eax = 0x80000008;
     cpuid();
+    printf("\nADDRESS SIZE INFO\n");
+    printf("---------------------------------------------------------------------------------\n");
     unsigned int physical_address_size = (eax & 0xFF);
     printf("Physical Address Size: %d bits\n", physical_address_size);
     unsigned int linear_address_size = ((eax >> 8) & 0xFF);
     printf("Linear Address Size: %d bits\n", linear_address_size);
 
+    /* Logical cores */
     eax = 0xB;
     ecx = 0x1;
     cpuid_with_ecx();
     unsigned int logical_cores = (ebx & 0xFFFF);
-    printf("Logical Cores: %d\n", logical_cores);
+    printf("\nLOGICAL CORES: %d\n", logical_cores);
+    printf("---------------------------------------------------------------------------------\n");
 
+    /* Family and model info */
     eax = 0x1;
     cpuid();
     unsigned int family = ((eax >> 8) & 0xF);
@@ -310,9 +450,12 @@ int main(int argc, char **argv)
     else if (family == 6) {
         model += (extended_model << 4);
     }
+    printf("\nCPU INFO\n");
+    printf("---------------------------------------------------------------------------------\n");
     printf("Family: %d\n", family);
     printf("Model Number: %d\n", model);
 
+    /* Model name */
     eax = 0x80000000;
     cpuid();
     if (eax >= 0x80000004) {
@@ -327,6 +470,7 @@ int main(int argc, char **argv)
         printf("Model Name: %s\n", model_name);
     }
 	
+    /* CPU frequency */
     eax = 0x16;
     cpuid();
     if ((eax & 0xFFFF) != 0)
@@ -334,151 +478,69 @@ int main(int argc, char **argv)
     else
         printf("CPU frequency reporting not supported\n");
 
+    /* Support CPU features */
+    printf("\nSUPPORTED CPU FEATURES:\n");
+    printf("---------------------------------------------------------------------------------\n");
     eax = 0x1;
     cpuid();
-    char* cpu_features_d[32] = {
-        "Onboard x87 FPU\n",
-        "Virtual 8086 mode extensions\n",
-        "Debugging extensions\n",
-        "Page Size Extension\n",
-        "Time Stamp Counter\n",
-        "Model-specific registers\n",
-        "Machine Check Exception\n",
-        "Physical Address Extension\n",
-        "CMPXCHG8\n",
-        "Onboard Advanced Programmable Interrupt Controller\n",
-        "",
-        "SYSENTER and SYSEXIT instructions\n",
-        "Memory Type Range Registers\n",
-        "Page Global Enable bit in CR4\n",
-        "Machine check architecture\n",
-        "Conditional move and FCMOV instructions\n",
-        "Page Attribute Table\n",
-        "36-bit page size extension\n",
-        "Processor Serial Number\n",
-        "CLFLUSH instruction\n",
-        "",
-        "Debug store\n",
-        "Onboard thermal control MSRs for ACPI\n",
-        "MMX instructions\n",
-        "FXSAVE, FXRESTOR instructions\n",
-        "SSE instructions\n",
-        "SSE2 instructions\n",
-        "CPU cache supports self-snoop\n",
-        "Hyper-threading\n",
-        "Thermal monitor automatically limits temperature\n",
-        "IA64 processor emulating x86\n",
-        "Pending Break Enable wakeup support\n"
-    };
-    char* cpu_features_c[32] = {
-        "SSE3 instructions\n",
-        "PCLMULQDQ support\n",
-        "64-bit debug store\n",
-        "MONITOR and MWAIT instructions\n",
-        "CPL qualified debug store\n",
-        "Virtual Machine eXtensions\n",
-        "Safer Mode Extensions\n",
-        "Enhanced SpeedStep\n",
-        "Thermal Monitor 2\n",
-        "SSSE3 instructions\n",
-        "L1 Context ID\n",
-        "Silicon Debug interface\n",
-        "Fused multiply-add 3\n",
-        "CMPXCHG16B instruction\n",
-        "Can disable sending task priority messages\n",
-        "Perfmon & debug capability\n",
-        "",
-        "Process context identifiers\n",
-        "Direct cache access for DMA writes\n",
-        "SSE4.1 instructions\n",
-        "SSE4.2 instructions\n",
-        "x2APIC support\n",
-        "MOVBE instruction\n",
-        "POPCNT instruction\n",
-        "APIC supports one-shot operation using a TSC deadline value\n",
-        "AES instruction set\n",
-        "XSAVE, XRESTOR, XSETBV, XGETBV\n",
-        "XSAVE enabled by OS\n",
-        "Advanced Vector Extensions\n",
-        "Half precision float support\n",
-        "RDRAND\n",
-        "Running on a hypervisor\n"
-    };
-    printf("CPU Features:\n");
     for (int i = 0; i < 32; ++i) {
         if (ecx & 0x1)
-            printf("\t%s", cpu_features_c[i]);
+            printf("%s", cpu_features_c[i]);
         ecx = (ecx >> 1);
     }
     for (int i = 0; i < 32; ++i) {
         if (edx & 0x1)
-            printf("\t%s", cpu_features_d[i]);
+            printf("%s", cpu_features_d[i]);
         edx = (edx >> 1);
     }
     eax = 0x7;
     cpuid();
-    char* ext_cpu_features_b[32] = {
-        "Access to base of fs and gs\n",
-        "Virtual 8086 mode extensions\n",
-        "Software Guard Extensions\n",
-        "Bit Manipulation Instruction Set 1\n",
-        "Transactional Synchronization Extensions\n",
-        "Advanced Vector Extensions 2\n",
-        "",
-        "Supervisor-Mode Execution Prevention\n",
-        "Bit Manipulation Instruction Set 2\n",
-        "Enhanced REP MOVSB/STOSB\n",
-        "INVPCID instruction\n",
-        "Transactional Synchronization Extensions\n",
-        "Platform Quality of Service Monitoring\n",
-        "FPU CS and FPU DS deprecated\n",
-        "Intel MPX\n",
-        "Platform Quality of Service Enforcement\n",
-        "AVX-512 Foundation\n",
-        "AVX-512 Doubleword and Quadword Instructions\n",
-        "RDSEED instruction\n",
-        "Intel ADX\n",
-        "Supervisor Mode Access Prevention\n",
-        "AVX-512 Integer Fused Multiply-Add Instructions\n",
-        "PCOMMIT instruction\n",
-        "CLFLUSHOPT instruction\n",
-        "CLWB instruction\n",
-        "Intel Processor Trace\n",
-        "AVX-512 Prefetch Instructions\n",
-        "AVX-512 Exponential and Reciprocal Instructions\n",
-        "AVX-512 Conflict Detection Instructions\n",
-        "Intel SHA extensions\n",
-        "AVX-512 Byte and Word Instructions\n",
-        "AVX-512 Vector Length Extensions\n"
-    };
-    char* ext_cpu_features_c[32] = {
-        "PREFETCHWT1 instruction\n",
-        "AVX-512 Vector Bit Manipulation Instructions\n",
-        "User-mode Instruction Prevention\n",
-        "Memory Protection Keys for User-mode pages\n",
-        "PKU enabled by OS\n",
-        "","","","","","","","","",
-        "AVX-512 Vector Population Count D/Q\n",
-        "","","","","","","",
-        "Read Processor ID\n",
-        "","","","","","","",
-        "SGX Launch Configuration\n",
-        ""
-    };
     for (int i = 0; i < 32; ++i) {
-        if (ecx & 0x1)
-            printf("\t%s", ext_cpu_features_b[i]);
-        ecx = (ecx >> 1);
+        if (ebx & 0x1)
+            printf("%s", ext_cpu_features_b[i]);
+        ebx = (ebx >> 1);
     }
     for (int i = 0; i < 32; ++i) {
-        if (edx & 0x1)
-            printf("\t%s", ext_cpu_features_c[i]);
-        edx = (edx >> 1);
+        if (ecx & 0x1)
+            printf("%s", ext_cpu_features_c[i]);
+        ecx = (ecx >> 1);
     }
     if (edx & 0b10)
         printf("\tAVX-512 Neural Network Instructions\n");
     if (edx & 0b11)
         printf("\tAVX-512 Multiply Accumulation Single precision\n");
+
+    /* Not supported CPU features */
+    printf("\nNOT SUPPORTED CPU FEATURES:\n");
+    printf("---------------------------------------------------------------------------------\n");
+    eax = 0x1;
+    cpuid();
+    for (int i = 0; i < 32; ++i) {
+        if (!(ecx & 0x1))
+            printf("%s", cpu_features_c[i]);
+        ecx = (ecx >> 1);
+    }
+    for (int i = 0; i < 32; ++i) {
+        if (!(edx & 0x1))
+            printf("%s", cpu_features_d[i]);
+        edx = (edx >> 1);
+    }
+    eax = 0x7;
+    cpuid();
+    for (int i = 0; i < 32; ++i) {
+        if (!(ebx & 0x1))
+            printf("%s", ext_cpu_features_b[i]);
+        ebx = (ebx >> 1);
+    }
+    for (int i = 0; i < 32; ++i) {
+        if (!(ecx & 0x1))
+            printf("%s", ext_cpu_features_c[i]);
+        ecx = (ecx >> 1);
+    }
+    if (!(edx & 0b10))
+        printf("AVX-512 Neural Network Instructions\n");
+    if (!(edx & 0b11))
+        printf("AVX-512 Multiply Accumulation Single precision\n");
 
 	return 0;
 }

@@ -307,3 +307,4 @@ OpenCover/
 build/
 tmp/
 *.tlog
+/notes 10-10-17.txt
