@@ -81,6 +81,12 @@
     <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/assignment1</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
+    <CleanCommandLine>
+    </CleanCommandLine>
+    <BuildCommandLine>
+    </BuildCommandLine>
+    <ReBuildCommandLine>
+    </ReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <OutDir>build</OutDir>
@@ -91,6 +97,12 @@
     <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/assignment1</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_release</RemoteReBuildCommandLine>
+    <CleanCommandLine>
+    </CleanCommandLine>
+    <BuildCommandLine>
+    </BuildCommandLine>
+    <ReBuildCommandLine>
+    </ReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>build</OutDir>
@@ -101,6 +113,12 @@
     <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/assignment1</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
+    <CleanCommandLine>
+    </CleanCommandLine>
+    <BuildCommandLine>
+    </BuildCommandLine>
+    <ReBuildCommandLine>
+    </ReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>build</OutDir>
@@ -111,6 +129,12 @@
     <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/assignment1</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_release</RemoteReBuildCommandLine>
+    <CleanCommandLine>
+    </CleanCommandLine>
+    <BuildCommandLine>
+    </BuildCommandLine>
+    <ReBuildCommandLine>
+    </ReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <OutDir>build</OutDir>
@@ -121,6 +145,12 @@
     <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/assignment1</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
+    <CleanCommandLine>
+    </CleanCommandLine>
+    <BuildCommandLine>
+    </BuildCommandLine>
+    <ReBuildCommandLine>
+    </ReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <OutDir>build</OutDir>
@@ -131,15 +161,18 @@
     <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/assignment1</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_release</RemoteReBuildCommandLine>
+    <CleanCommandLine>
+    </CleanCommandLine>
+    <BuildCommandLine>
+    </BuildCommandLine>
+    <ReBuildCommandLine>
+    </ReBuildCommandLine>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="cpuid.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="README.txt" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <BuildLog>
