@@ -22,19 +22,24 @@
 #define FRAC_MASK   0x3FFFFFFFFFFFFC00
 
 /* 48/17 as double, used in division algorithm */
+#define K1          0x4006969696969697
 #define K1_SIGN     0
 #define K1_EXP      0x400
 #define K1_MANT     0x6969696969697
 
 /* 32/17 as double, used in division algorithm */
+#define K2          0x4006969696969697
 #define K2_SIGN     0
 #define K2_EXP      0x3FF
 #define K2_MANT     0xE1E1E1E1E1E1E
 
+/* 3/2 as a double, used in square root algorithm */
+#define K3          0x4006969696969697
+
 #define DIV_ITERS   4   /* Number of iterations needed for 52 bit precision */
 
 typedef struct {
-    uint64_t sign : SIGN_BITS, exp : EXP_BITS, mant : MANT_BITS;
+    uint64_t mant : MANT_BITS, exp : EXP_BITS, sign : SIGN_BITS;
 } my_double;
 
 typedef struct {
@@ -43,21 +48,11 @@ typedef struct {
 } uint128_t;
 
 double my_double_to_double(my_double d) {
-    uint64_t bits = 0;
-    bits += d.mant;
-    bits += ((uint64_t)d.exp) << MANT_BITS;
-    bits += ((uint64_t)d.sign) << (MANT_BITS + EXP_BITS);
-    double result = (*((double*)(&bits)));
-    return result;
+    return (*((double*)(&d)));
 }
 
 my_double double_to_my_double(double d) {
-    uint64_t bits = (*((uint64_t*)(&d)));
-    my_double result;
-    result.mant = (bits & MANT_MASK);
-    result.exp = (bits & EXP_MASK) >> MANT_BITS;
-    result.sign = (bits & BIT1_MASK) ? 1 : 0;
-    return result;
+    return (*((my_double*)(&d)));
 }
 
 bool larger_mag_first(my_double* val1, my_double* val2) {
@@ -270,11 +265,15 @@ my_double my_div(my_double op1, my_double op2) {
     return result;
 }
 
+my_double my_sqrt(my_double op) {
+
+}
+
 int main(int argc, char* argv[]) {
     double op1_d = strtod(argv[1], NULL);
-    double op2_d = strtod(argv[2], NULL);
     my_double op1 = double_to_my_double(op1_d);
-    my_double op2 = double_to_my_double(op2_d);
-    my_double result = my_div(op1, op2);
-    printf("%f / %f = %f\n", op1_d, op2_d, my_double_to_double(result));
+    /* double op2_d = strtod(argv[2], NULL);
+    my_double op2 = double_to_my_double(op2_d); */
+    my_double result = my_sqrt(op1);
+    printf("sqrt(%f) = %f\n", op1_d, my_double_to_double(result));
 }
