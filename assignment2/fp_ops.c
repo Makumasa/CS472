@@ -23,20 +23,15 @@
 
 /* 48/17 as double, used in division algorithm */
 #define K1          0x4006969696969697
-#define K1_SIGN     0
-#define K1_EXP      0x400
-#define K1_MANT     0x6969696969697
 
 /* 32/17 as double, used in division algorithm */
-#define K2          0x4006969696969697
-#define K2_SIGN     0
-#define K2_EXP      0x3FF
-#define K2_MANT     0xE1E1E1E1E1E1E
+#define K2          0x3ffe1e1e1e1e1e1e
 
 /* 3/2 as a double, used in square root algorithm */
-#define K3          0x4006969696969697
+#define K3          0x3ff8000000000000
 
-#define DIV_ITERS   4   /* Number of iterations needed for 52 bit precision */
+#define DIV_ITERS   4   /* Number of Newton iterations needed for divide */
+#define SQRT_ITERS  3   /* Number of Newton iterations needed for square root */
 
 typedef struct {
     uint64_t mant : MANT_BITS, exp : EXP_BITS, sign : SIGN_BITS;
@@ -47,12 +42,19 @@ typedef struct {
     uint64_t lower;
 } uint128_t;
 
+static const my_double my_nan  = { .sign = 0,.exp = EXP_MAX,.mant = 1 };
+static const my_double my_zero = { .sign = 0,.exp = 0,      .mant = 0 };
+
 double my_double_to_double(my_double d) {
-    return (*((double*)(&d)));
+    return *((double*)(&d));
 }
 
 my_double double_to_my_double(double d) {
-    return (*((my_double*)(&d)));
+    return *((my_double*)(&d));
+}
+
+my_double ui_to_d(uint64_t ui) {
+    return *((my_double*)(&ui));
 }
 
 bool larger_mag_first(my_double* val1, my_double* val2) {
@@ -90,9 +92,7 @@ my_double my_add(my_double op1, my_double op2) {
         }
     }
     else if (is_equal && (op1.sign != op2.sign)) {
-        result.sign = 0;
-        result.exp = 0;
-        result.mant = 0;
+        result = my_zero;
     }
     else {
         uint32_t exp_diff = op1.exp - op2.exp;
@@ -132,13 +132,11 @@ my_double my_mul(my_double op1, my_double op2) {
 
     if (op1.exp == EXP_MAX) {
         if (!op1.mant && !op2.exp && !op2.mant) {
-            result.mant = 1;
-            result.sign = 0;
+            result = my_nan;
         }
     }
     else if (!op2.exp && !op2.mant) {
-        result.mant = 0;
-        result.exp  = 0;
+        result = my_zero;
     }
     else {
         /* 
@@ -174,12 +172,11 @@ my_double my_mul(my_double op1, my_double op2) {
         int32_t  scale    = res_bits - (2 * MANT_BITS) - 1;
         int32_t  s_exp    = op1.exp + op2.exp - EXP_BIAS + scale;
         if (s_exp > EXP_MAX) {
-            result.exp = EXP_MAX;
+            result.exp  = EXP_MAX;
             result.mant = 0;
         }
         else if (s_exp < 0) {
-            result.exp = 0;
-            result.mant = 0;
+            result = my_zero;
         }
         else {
             result.exp = s_exp;
@@ -198,37 +195,30 @@ my_double my_div(my_double op1, my_double op2) {
      * Referenced https://en.wikipedia.org/wiki/Division_algorithm#Pseudocode
      * for the division algorithm employed in this function.
      */
-    uint32_t sign = op1.sign ^ op2.sign;
     my_double result;
+    result.sign = op1.sign ^ op2.sign;
     if (!op2.exp && !op2.mant) {
-        sign = 0;
-        result.exp  = EXP_MAX;
-        result.mant = 1;
+        result = my_nan;
     }
     else if (op1.exp == EXP_MAX) {
-        result.exp = EXP_MAX;
         if (op1.mant || (op2.exp == EXP_MAX)) {
-            sign = 0;
-            result.mant = 1;
+            result = my_nan;
         }
         else {
+            result.exp  = EXP_MAX;
             result.mant = 0;
         }
     }
     else if (op2.exp == EXP_MAX) {
         if (op2.mant) {
-            sign = 0;
-            result = op2;
+            result = my_nan;
         }
         else {
-            result.exp  = 0;
-            result.mant = 0;
+            result = my_zero;
         }
     }
     else if (!op1.exp && !op1.mant) {
-        sign = 0;
-        result.exp  = 0;
-        result.mant = 0;
+        result = my_zero;
     }
     else {
         op1.sign = 0;
@@ -236,20 +226,9 @@ my_double my_div(my_double op1, my_double op2) {
         op1.exp = op1.exp - op2.exp - 1 + EXP_BIAS;
         op2.exp = EXP_BIAS - 1;
 
-        my_double k1;
-        k1.sign = K1_SIGN;
-        k1.exp  = K1_EXP;
-        k1.mant = K1_MANT;
-
-        my_double k2;
-        k2.sign = K2_SIGN;
-        k2.exp  = K2_EXP;
-        k2.mant = K2_MANT;
-
-        my_double two;
-        two.sign = 0;
-        two.exp  = 1 + EXP_BIAS;
-        two.mant = 0;
+        my_double k1  = ui_to_d(K1);
+        my_double k2  = ui_to_d(K2);
+        my_double two = ui_to_d(0x4000000000000000);
 
         my_double recip = my_sub(k1, my_mul(k2, op2));
         for (int i = 0; i < DIV_ITERS; ++i) {
@@ -261,19 +240,61 @@ my_double my_div(my_double op1, my_double op2) {
         result = my_mul(op1, recip);
     }
     
-    result.sign = sign;
     return result;
 }
 
+/* 
+ * Beautiful fast square root algorithm courtesy of Quake III source at
+ * https://github.com/id-Software/Quake-III-Arena/blob/master/code/game/q_math.c#L552 
+ */
 my_double my_sqrt(my_double op) {
-
+    my_double result;
+    if (op.exp == EXP_MAX) {
+        result = op;
+    }
+    else if (op.sign) {
+        result = my_nan;
+    }
+    else {
+        my_double x2 = op;
+        x2.exp--;
+        my_double temp = op;
+        uint64_t i = *((uint64_t*)(&temp));
+        i = 0x5FE6EB50C7B537A9 - (i >> 1);
+        temp = ui_to_d(i);
+        my_double k3 = ui_to_d(K3);
+        for (int i = 0; i < 2; ++i) {
+            result = my_mul(x2,     temp  );
+            result = my_mul(result, temp  );
+            result = my_sub(k3,     result);
+            result = my_mul(temp,   result);
+            temp = result;
+        }
+        result = my_mul(op, result);
+    }
+    
+    return result;
 }
 
 int main(int argc, char* argv[]) {
     double op1_d = strtod(argv[1], NULL);
     my_double op1 = double_to_my_double(op1_d);
-    /* double op2_d = strtod(argv[2], NULL);
-    my_double op2 = double_to_my_double(op2_d); */
-    my_double result = my_sqrt(op1);
-    printf("sqrt(%f) = %f\n", op1_d, my_double_to_double(result));
+    double op2_d = strtod(argv[2], NULL);
+    my_double op2 = double_to_my_double(op2_d);
+    my_double result;
+
+    result = my_add(op1, op2);
+    printf("\t%f + %f = %f\n", op1_d, op2_d, my_double_to_double(result));
+
+    result = my_sub(op1, op2);
+    printf("\t%f - %f = %f\n", op1_d, op2_d, my_double_to_double(result));
+
+    result = my_mul(op1, op2);
+    printf("\t%f * %f = %f\n", op1_d, op2_d, my_double_to_double(result));
+
+    result = my_div(op1, op2);
+    printf("\t%f / %f = %f\n", op1_d, op2_d, my_double_to_double(result));
+
+    result = my_sqrt(op1);
+    printf("\tsqrt(%f) = %f\n", op1_d, my_double_to_double(result));
 }
