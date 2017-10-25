@@ -94,6 +94,9 @@ my_double my_add(my_double op1, my_double op2) {
     else if (is_equal && (op1.sign != op2.sign)) {
         result = my_zero;
     }
+    else if (!op2.exp && !op2.mant) {
+        result = op1;
+    }
     else {
         uint32_t exp_diff = op1.exp - op2.exp;
         uint64_t op1_frac = (IMPL_1 + op1.mant) << PAD;
@@ -263,7 +266,7 @@ my_double my_sqrt(my_double op) {
         i = 0x5FE6EB50C7B537A9 - (i >> 1);
         temp = ui_to_d(i);
         my_double k3 = ui_to_d(K3);
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < SQRT_ITERS; ++i) {
             result = my_mul(x2,     temp  );
             result = my_mul(result, temp  );
             result = my_sub(k3,     result);
