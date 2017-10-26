@@ -73,65 +73,73 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <OutDir>build</OutDir>
+    <OutDir>.</OutDir>
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/fp_ops</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <OutDir>build</OutDir>
+    <OutDir>.</OutDir>
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/fp_ops</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
-    <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_release</RemoteReBuildCommandLine>
+    <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>build</OutDir>
+    <OutDir>.</OutDir>
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/fp_ops</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>build</OutDir>
+    <OutDir>.</OutDir>
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/fp_ops</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
-    <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_release</RemoteReBuildCommandLine>
+    <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <OutDir>build</OutDir>
+    <OutDir>.</OutDir>
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/fp_ops</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <OutDir>build</OutDir>
+    <OutDir>.</OutDir>
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/$(OutDir)/fp_ops</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
-    <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_release</RemoteReBuildCommandLine>
+    <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
   <ItemGroup>
     <None Include="makefile" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fp_ops.c" />
+    <ClCompile Include="mt19937-64.c" />
+    <ClCompile Include="ops_test.c" />
     <ClCompile Include="my_frexp.c" />
+    <ClCompile Include="ops_timing.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mt19937-64.h" />
+    <ClInclude Include="my_double.h" />
+    <ClInclude Include="my_fp_ops.c" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <BuildLog>

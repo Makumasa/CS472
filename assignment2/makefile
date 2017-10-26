@@ -1,28 +1,31 @@
-CC      = gcc
-CFLAGS  = -std=c99 -lm
-IMP     = my_frexp
-OPS     = fp_ops
-HEADERS = 
-FILES   = $(IMP).c $(OPS).c $(HEADERS)
-OUTDIR  = ./build
-IMP_OUT = $(OUTDIR)/$(IMP)
-OPS_OUT = $(OUTDIR)/$(OPS)
-OUTPUTS = $(IMP_OUT) $(OPS_OUT)
+CC          = gcc
+LINK_FLAGS  = -lm
+CFLAGS      = $(LINK_FLAGS) -std=c99 -O2 -DNDEBUG
+DEBUG_FLAGS = $(LINK_FLAGS) -std=c99 -Og -g -Wall -DDEBUG
+PROGRAMS    = my_frexp ops_test ops_timing
+HEADERS     = my_double.h mt19937-64.h
 
-release: create_outdir $(FILES)
-	$(CC) $(CFLAGS) -O2 -o $(IMP_OUT) $(IMP).c
-	$(CC) $(CFLAGS) -O2 -o $(OPS_OUT) $(OPS).c
+.PHONY: debug all clean rebuild rebuild_debug
 
-debug: create_outdir $(FILES)
-	$(CC) $(CFLAGS) -g -Wall -o $(IMP_OUT) $(IMP).c
-	$(CC) $(CFLAGS) -g -Wall -o $(OPS_OUT) $(OPS).c
+all: $(PROGRAMS)
+
+debug: CFLAGS := $(DEBUG_FLAGS)
+debug: $(PROGRAMS)
+
+my_frexp: my_frexp.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+ops_test: ops_test.c my_fp_ops.c my_double.h
+	$(CC) $(CFLAGS) -o $@ $(filter %.c,$^)
+
+ops_timing: ops_timing.c fp_ops.c my_fp_ops.c mt19937-64.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $(filter %.c,$^)
+	$(CC) $(LINK_FLAGS) -o $@ $(addsuffix .o,$(basename $(filter %.c,$^)))
+	rm -rf *.o
 
 clean:
-	rm -rf $(OUTPUTS)
+	rm -rf $(PROGRAMS)
 
-rebuild_release: clean release
+rebuild: clean all
 
 rebuild_debug: clean debug
-
-create_outdir:
-	mkdir -p $(OUTDIR)
