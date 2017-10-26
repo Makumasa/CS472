@@ -1,6 +1,6 @@
 CC          = gcc
 LINK_FLAGS  = -lm
-CFLAGS      = $(LINK_FLAGS) -std=c99 -O2 -DNDEBUG
+CFLAGS      = $(LINK_FLAGS) -std=c99 -O0 -DNDEBUG
 DEBUG_FLAGS = $(LINK_FLAGS) -std=c99 -Og -g -Wall -DDEBUG
 PROGRAMS    = my_frexp ops_test ops_timing
 HEADERS     = my_double.h mt19937-64.h

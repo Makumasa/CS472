@@ -1,13 +1,15 @@
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <time.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "my_double.h"
 #include "mt19937-64.h"
 
-#define FP_ITERATIONS       10000
-#define MY_FP_ITERATIONS    100
+#define FP_ITERATIONS       1000000
+#define MY_FP_ITERATIONS    10000
 
 extern my_double my_add(my_double op1, my_double op2);
 extern my_double my_sub(my_double op1, my_double op2);
@@ -33,9 +35,33 @@ int main(int argc, char* argv[]) {
     struct rusage usage;
     struct timeval start, end;
 
+    /**************************************************************************/
+    /*                           FP OPERATIONS                                */
+    /**************************************************************************/
+
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
-    for (int i = 0; i < FP_ITERATIONS; ++i) {
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
         add_d(op1, op2);
         add_d(op1, op2);
         add_d(op1, op2);
@@ -59,6 +85,738 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    printf("Time to run %d times: %lu.%06u seconds.\n", 20 * FP_ITERATIONS, end.tv_sec - start.tv_sec, end.tv_usec - start.tv_usec);
+    uint64_t temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+        add_d(op1, op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double addusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+        sub_d(op1, op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    uint64_t subusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+        mul_d(op1, op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double mulusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+        div_d(op1, op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double divusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);;
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < FP_ITERATIONS; ++i) {
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+        sqrt_d(op1);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double sqrtusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+
+    /**************************************************************************/
+    /*                         MY FP OPERATIONS                               */
+    /**************************************************************************/
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+        my_add(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double my_addusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+        my_sub(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double my_subusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+        my_mul(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double my_mulusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+        my_div(my_op1, my_op2);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double my_divusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    temp = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+    getrusage(RUSAGE_SELF, &usage);
+    start = usage.ru_utime;
+    for (volatile int i = 0; i < MY_FP_ITERATIONS; ++i) {
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+        my_sqrt(my_op1);
+    }
+    getrusage(RUSAGE_SELF, &usage);
+    end = usage.ru_utime;
+    double my_sqrtusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+
+    printf("Time to perform hardware add:         %f microseconds.\n", addusec);
+    printf("Time to perform software add:         %f microseconds.\n\n", my_addusec);
+
+    printf("Time to perform hardware subtract:    %f microseconds.\n", subusec);
+    printf("Time to perform software subtract:    %f microseconds.\n\n", my_subusec);
+
+    printf("Time to perform hardware multiply:    %f microseconds.\n", mulusec);
+    printf("Time to perform software multiply:    %f microseconds.\n\n", my_mulusec);
+
+    printf("Time to perform hardware divide:      %f microseconds.\n", divusec);
+    printf("Time to perform software divide:      %f microseconds.\n\n", my_divusec);
+
+    printf("Time to perform hardware square root: %f microseconds.\n", sqrtusec);
+    printf("Time to perform software square root: %f microseconds.\n", my_sqrtusec);
+
     return 0;
 }
