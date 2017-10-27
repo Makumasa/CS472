@@ -77,7 +77,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/interpret_64</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -86,7 +86,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/interpret_64</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -95,7 +95,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/interpret_64</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -104,7 +104,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/interpret_64</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -113,7 +113,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/interpret_64</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -122,7 +122,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/ops_timing</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/interpret_64</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fp_ops.c" />
+    <ClCompile Include="interpret_64.c" />
     <ClCompile Include="mt19937-64.c" />
     <ClCompile Include="ops_test.c" />
     <ClCompile Include="my_frexp.c" />

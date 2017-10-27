@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double addusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+    double addusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -187,7 +187,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    uint64_t subusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+    double subusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -262,7 +262,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double mulusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+    double mulusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -337,7 +337,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double divusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+    double divusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -422,7 +422,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double sqrtusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * FP_ITERATIONS);
+    double sqrtusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (FP_ITERATIONS / 50.0);
 
     /**************************************************************************/
     /*                         MY FP OPERATIONS                               */
@@ -501,7 +501,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double my_addusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+    double my_addusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (MY_FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -576,7 +576,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double my_subusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+    double my_subusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (MY_FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -651,7 +651,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double my_mulusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+    double my_mulusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (MY_FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -726,7 +726,7 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double my_divusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+    double my_divusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (MY_FP_ITERATIONS / 50.0);
 
     getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_utime;
@@ -801,22 +801,22 @@ int main(int argc, char* argv[]) {
     }
     getrusage(RUSAGE_SELF, &usage);
     end = usage.ru_utime;
-    double my_sqrtusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (20.0 * MY_FP_ITERATIONS);
+    double my_sqrtusec = (temp - ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))) / (MY_FP_ITERATIONS / 50.0);
 
-    printf("Time to perform hardware add:         %f microseconds.\n", addusec);
-    printf("Time to perform software add:         %f microseconds.\n\n", my_addusec);
+    printf("Time to perform hardware add:         %f nanoseconds.\n", addusec);
+    printf("Time to perform software add:         %f nanoseconds.\n\n", my_addusec);
 
-    printf("Time to perform hardware subtract:    %f microseconds.\n", subusec);
-    printf("Time to perform software subtract:    %f microseconds.\n\n", my_subusec);
+    printf("Time to perform hardware subtract:    %f nanoseconds.\n", subusec);
+    printf("Time to perform software subtract:    %f nanoseconds.\n\n", my_subusec);
 
-    printf("Time to perform hardware multiply:    %f microseconds.\n", mulusec);
-    printf("Time to perform software multiply:    %f microseconds.\n\n", my_mulusec);
+    printf("Time to perform hardware multiply:    %f nanoseconds.\n", mulusec);
+    printf("Time to perform software multiply:    %f nanoseconds.\n\n", my_mulusec);
 
-    printf("Time to perform hardware divide:      %f microseconds.\n", divusec);
-    printf("Time to perform software divide:      %f microseconds.\n\n", my_divusec);
+    printf("Time to perform hardware divide:      %f nanoseconds.\n", divusec);
+    printf("Time to perform software divide:      %f nanoseconds.\n\n", my_divusec);
 
-    printf("Time to perform hardware square root: %f microseconds.\n", sqrtusec);
-    printf("Time to perform software square root: %f microseconds.\n", my_sqrtusec);
+    printf("Time to perform hardware square root: %f nanoseconds.\n", sqrtusec);
+    printf("Time to perform software square root: %f nanoseconds.\n\n", my_sqrtusec);
 
     return 0;
 }
