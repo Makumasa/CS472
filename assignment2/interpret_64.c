@@ -39,25 +39,25 @@ int main() {
     
     printf("A 64-bit value has been generated using the Mersenne Twister.\n\n");
     printf("If we interpret this bit pattern as a double:\n");
-    printf("\t%-26s%f.\n", "Its mantissa is:", mantissa);
+    printf("\t%-26s%f\n", "Its mantissa is:", mantissa);
     if (negative_d)
-        printf("\t%-26s1 (negative).\n", "Its sign is:");
+        printf("\t%-26s1 (negative)\n", "Its sign is:");
     else
-        printf("\t%-26s0 (positive).\n", "Its sign is:");
-    printf("\t%-26s%d.\n\n", "Its exponent is:", exp);
+        printf("\t%-26s0 (positive)\n", "Its sign is:");
+    printf("\t%-26s%d\n\n", "Its exponent is:", exp);
 
     printf("If we interpret this bit pattern as a long:\n");
-    printf("\t%-26s%ld.\n", "Its value is:", abs(val.l));
+    printf("\t%-26s%d\n", "Its value is:", abs(val.l));
     if (negative_l)
-        printf("\t%-26s1 (negative).\n\n", "Its sign is:");
+        printf("\t%-26s1 (negative)\n\n", "Its sign is:");
     else
-        printf("\t%-26s0 (positive).\n\n", "Its sign is:");
+        printf("\t%-26s0 (positive)\n\n", "Its sign is:");
 
     printf("If we interpret this bit pattern as 8 characters:\n");
     for (int i = 0; i < NUM_CHARS; ++i) {
         char s[80];
         sprintf(s, "The %s character is:", n_strings[i]);
-        printf("\t%-26s'%c'.\n", s, val.c[i]);
+        printf("\t%-26s'%c'\n", s, val.c[i]);
     }
 
     return 0;
