@@ -8,7 +8,7 @@ prints their output side by side.
 
 The program "ops_test" is used to show the validity of the software floating
 point operations written for Part 2. It takes in two doubles as command line
-arguments ,runs my software floating point operations with these two values
+arguments, runs my software floating point operations with these two values
 as operands, and prints the results. These software floating point functions 
 do not properly handle denormalized values.
 
