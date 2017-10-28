@@ -12,7 +12,7 @@ typedef union {
     uint64_t bits;
     double   d;
     int64_t  l;
-    char     c[8];
+    char     c[NUM_CHARS];
 } bit_pattern;
 
 int main() {
