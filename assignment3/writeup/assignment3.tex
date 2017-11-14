@@ -1,0 +1,23 @@
+\documentclass[12pt]{article}%
+
+\begin{document}
+
+\title{CS472 Assignment 1}
+\author{Mark Bereza}
+\date{\today}
+\maketitle
+\section{Question 2}
+Although computer architecture and computer organziation both refer to the low level structure of computers, computer architecture approaches the question for the software side of things, describing concepts like memory hierarchy in abstract terms. Computer organization, on the other hand, deals with the hardware implementation of computer architecture, addressing questions such as what physical components are actually used to construct various systems.
+\section{Question 3}
+Endianess refers to the logical ordering of bits in memory. In big-endian notation, bits are ordered from most significant to least significant when read from left to right. Little-endian, on the other hand, orders bits in the opposite manner and is the standard for most x86 processors. The hardware used for this assignment, for example, uses little-endian. Although less common, bi-endian systems, including most ARM processors, allow for software switching between the two aforementioned modes.
+\section{Question 4}
+The IEEE single-precision floating point format expresses real numbers using 32 bits of data. The first bit represents the sign of the number, with 1 signifying a negative value. The following 8 bits describe the exponent that the number 2 is taken to before being multiplied by the fraction portion to produce the final value. This isn't the whole picture, however, as a bias of 127 is included in the exponent and must be first subtracted out in order to arrive at the correct value when computing by hand.
+
+The IEEE double-precision floating point format is structured exactly the same way, but is express using 64 bits, allowing it to express a larger range of values and to express smaller values with greater precision. As before, a single sign bit is used, but 11 bits are used for the exponent and 52 bits are used for the fraction. To accomodate the larger exponent, the bias for doubles is 1203 instead of 127. 
+\section{Question 5}
+Memory hierarchy is the practice of splitting computer memory into varying degrees of speed and capacity, usually with the fastest memory having the smallest capacity and being the most expensive and the slowest memory being far cheaper and plentiful. The levels of the memory hierarchy present on flip.engr.oregonstate.edu includes registers, L1 data cache, L1 instruction cache, L2 cache, L3 cache, RAM, and presumably some form of hard disk. 
+\section{Question 6}
+The SIMD instruction set extensions that are present on flip.engr.oregonstate.edu are MMX, SSE, SSE2, SSE3, SSSE3, SSE4.1, and SSE4.2.
+\section{Bibliography for C Code}
+https://github.com/tianocore/edk2/blob/master/UefiCpuPkg/Application/Cpuid/Cpuid.c
+\end{document}

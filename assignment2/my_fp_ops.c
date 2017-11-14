@@ -124,10 +124,10 @@ my_double my_mul(my_double op1, my_double op2) {
     else {
         /*
         * Referenced http://www.jhauser.us/arithmetic/SoftFloat.html for lines
-        * 148-162.
+        * 129-145.
         */
-        uint64_t mant1 = IMPL_1 + op1.mant;
-        uint64_t mant2 = IMPL_1 + op2.mant;
+        uint64_t mant1   = IMPL_1 + op1.mant;
+        uint64_t mant2   = IMPL_1 + op2.mant;
         uint32_t mant1_u = mant1 >> 32;
         uint32_t mant1_l = mant1;
         uint32_t mant2_u = mant2 >> 32;
@@ -154,8 +154,8 @@ my_double my_mul(my_double op1, my_double op2) {
         }
 
         uint32_t res_bits = 128 - leading_zeros;
-        int32_t  scale = res_bits - (2 * MANT_BITS) - 1;
-        int32_t  s_exp = op1.exp + op2.exp - EXP_BIAS + scale;
+        int32_t  scale    = res_bits - (2 * MANT_BITS) - 1;
+        int32_t  s_exp    = op1.exp + op2.exp - EXP_BIAS + scale;
         if (s_exp > EXP_MAX) {
             result.exp = EXP_MAX;
             result.mant = 0;
@@ -208,16 +208,16 @@ my_double my_div(my_double op1, my_double op2) {
     else {
         op1.sign = 0;
         op2.sign = 0;
-        op1.exp = op1.exp - op2.exp - 1 + EXP_BIAS;
-        op2.exp = EXP_BIAS - 1;
+        op1.exp  = op1.exp - op2.exp - 1 + EXP_BIAS;
+        op2.exp  = EXP_BIAS - 1;
 
-        my_double k1 = ui_to_d(K1);
-        my_double k2 = ui_to_d(K2);
+        my_double k1  = ui_to_d(K1);
+        my_double k2  = ui_to_d(K2);
         my_double two = ui_to_d(0x4000000000000000);
 
         my_double recip = my_sub(k1, my_mul(k2, op2));
         for (int i = 0; i < DIV_ITERS; ++i) {
-            my_double temp = my_mul(op2, recip);
+            my_double temp  = my_mul(op2, recip);
             my_double temp2 = my_sub(two, temp);
             recip = my_mul(recip, temp2);
         }
