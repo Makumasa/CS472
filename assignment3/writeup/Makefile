@@ -3,19 +3,22 @@ DVIPS		= dvips
 DVIPDF  	= dvipdft
 XDVI		= xdvi -gamma 4
 GH			= gv
+FILE		= assignment3
 
-EXAMPLES	= $(wildcard *.h)
 SRC			:= $(shell egrep -l '^[^%]*\\begin\{document\}' *.tex)
 TRG		 	= $(SRC:%.tex=%.dvi)
 PSF			= $(SRC:%.tex=%.ps)
 PDF			= $(SRC:%.tex=%.pdf)
 
 pdf: $(PDF)
-	rm -f *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg *.toc
+	rm -f *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg *.toc *.c.tex
 
 ps: $(PSF)
 
-$(TRG): %.dvi: %.tex $(EXAMPLES)
+$(TRG): %.dvi: %.tex part11.eps part12.eps
+	pygmentize -f latex -o __part3.c.tex ../part3.c
+	pygmentize -f latex -o __part4.c.tex ../part4.c
+	pygmentize -f latex -o __part5.c.tex ../part5.c
 	$(LATEX) $<
 	$(LATEX) $<
 	$(LATEX) $<
@@ -35,6 +38,6 @@ showps: $(PSF)
 all: pdf
 
 clean:
-	rm -f *.pdf *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg *.toc
+	rm -f $(FILE).pdf *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg *.toc *.c.tex
 
 .PHONY: all show clean ps pdf showps

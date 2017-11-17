@@ -7,7 +7,7 @@
 
 #define CACHE_PATH "/sys/devices/system/cpu/cpu0/cache/"
 
-/* Adapted from https://stackoverflow.com/questions/1121383/counting-the-number-of-files-in-a-directory-using-c */
+/* Referenced https://stackoverflow.com/questions/1121383/counting-the-number-of-files-in-a-directory-using-c */
 uint8_t cache_count() {
     uint8_t count = 0;
     DIR* cache_dir;
@@ -18,13 +18,11 @@ uint8_t cache_count() {
         fprintf(stderr, "Error: could not open cache directory.\n");
         exit(-1);
     }
-
     while ((entry = readdir(cache_dir)) != NULL) {
         if (strcmp(entry->d_name, ".") && strcmp(entry->d_name, "..")) {
             count++;
         }
     }
-
     closedir(cache_dir);
 
     return count;
@@ -36,13 +34,11 @@ char* cache_type(uint8_t i) {
     FILE* f;
 
     sprintf(filename, "%s%s%u%s", CACHE_PATH, "index", i, "/type");
-
     f = fopen(filename, "r");
     if (f == NULL) {
         fprintf(stderr, "Error: could not open cache type file.\n");
         exit(-1);
     }
-
     memset(type, 0, sizeof(type));
     fscanf(f, "%s", type);
     fclose(f);
@@ -56,13 +52,11 @@ uint8_t cache_level(uint8_t i) {
     FILE* f;
 
     sprintf(filename, "%s%s%u%s", CACHE_PATH, "index", i, "/level");
-
     f = fopen(filename, "r");
     if (f == NULL) {
         fprintf(stderr, "Error: could not open cache level file.\n");
         exit(-1);
     }
-
     fscanf(f, "%hhu", &level);
     fclose(f);
 
@@ -76,13 +70,11 @@ uint64_t cache_line_size(uint8_t i) {
 
     sprintf(filename, "%s%s%u%s", CACHE_PATH, "index", i, 
             "/coherency_line_size");
-
     f = fopen(filename, "r");
     if (f == NULL) {
         fprintf(stderr, "Error: could not open cache line size file.\n");
         exit(-1);
     }
-
     fscanf(f, "%lu", &line_size);
     fclose(f);
 
@@ -96,13 +88,11 @@ uint64_t cache_sets(uint8_t i) {
 
     sprintf(filename, "%s%s%u%s", CACHE_PATH, "index", i,
         "/number_of_sets");
-
     f = fopen(filename, "r");
     if (f == NULL) {
         fprintf(stderr, "Error: could not open cache sets file.\n");
         exit(-1);
     }
-
     fscanf(f, "%lu", &sets);
     fclose(f);
 
@@ -116,13 +106,11 @@ uint64_t cache_ways(uint8_t i) {
 
     sprintf(filename, "%s%s%u%s", CACHE_PATH, "index", i,
         "/ways_of_associativity");
-
     f = fopen(filename, "r");
     if (f == NULL) {
         fprintf(stderr, "Error: could not open cache ways file.\n");
         exit(-1);
     }
-
     fscanf(f, "%lu", &ways);
     fclose(f);
 
@@ -144,5 +132,6 @@ int main() {
         printf("Cache %d number of sets:        %lu\n", i, cache_sets(i));
         printf("Cache %d size:                  %luK\n\n", i, cache_size(i));
     }
+
     return 0;
 }

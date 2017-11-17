@@ -2,8 +2,8 @@
 #include <math.h>
 #include <stdint.h>
 
+/* Referenced https://stackoverflow.com/questions/1001307/detecting-endianness-programmatically-in-a-c-program */
 void bi_endian(char* bytes, int len) {
-    /* Referenced https://stackoverflow.com/questions/1001307/detecting-endianness-programmatically-in-a-c-program */
     union {
         uint16_t u;
         char c[2];
