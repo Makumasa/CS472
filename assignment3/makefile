@@ -1,8 +1,8 @@
 CC          = gcc
-LINK_FLAGS  = 
+LINK_FLAGS  = -lm
 CFLAGS      = $(LINK_FLAGS) -std=c99 -O2 -DNDEBUG
 DEBUG_FLAGS = $(LINK_FLAGS) -std=c99 -Og -g -Wall -DDEBUG
-PROGRAMS    = part3 part4
+PROGRAMS    = part3 part4 part5
 HEADERS     = 
 
 .PHONY: debug all clean rebuild rebuild_debug

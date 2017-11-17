@@ -77,7 +77,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/part4</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/part5</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -86,7 +86,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/part4</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/part5</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -95,7 +95,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/part4</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/part5</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -104,7 +104,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/part4</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/part5</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -113,7 +113,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/part4</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/part5</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make debug</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild_debug</RemoteReBuildCommandLine>
   </PropertyGroup>
@@ -122,7 +122,7 @@
     <IntDir>tmp</IntDir>
     <RemoteProjectDir>$(RemoteRootDir)</RemoteProjectDir>
     <RemoteCleanCommandLine>cd $(RemoteRootDir);ls;make clean</RemoteCleanCommandLine>
-    <RemoteBuildOutputs>$(RemoteRootDir)/part4</RemoteBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteRootDir)/part5</RemoteBuildOutputs>
     <RemoteBuildCommandLine>cd $(RemoteRootDir);ls;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteRootDir);ls;make rebuild</RemoteReBuildCommandLine>
   </PropertyGroup>
