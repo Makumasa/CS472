@@ -44,4 +44,6 @@ For this part, I simply wrote a function that would reverse the order of bytes f
 For this part, I change the \verb!byte_swap()! function to first determine the endianness of the system at runtime by storing \verb!0x0102! to the integer portion of a union and checking whether the first byte (via array indexing) was 1 or 2. If the first byte was 1, then the system was big-endian. Otherwise, it was little-endian. As with Part 4, byte swapping was performed if the system was determined to be little-endian.
 \subsection*{Source Code}
 \input{__part5.c.tex}
+\section*{Evaluating Code}
+Running 'make' in the root directory will build the programs part3, part4, and part5, which are the implementations of parts 3, 4, and 5 of the assignment, respecitively.
 \end{document}
